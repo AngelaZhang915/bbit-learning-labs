@@ -23,8 +23,13 @@ def main(sector: str, queueName: str) -> None:
     #
     #                       WRITE CODE HERE!!!
     #
+    # Set the routing key and publish a message with that topic exchange:
+
+    routing_key = sys.argv[1] if len(sys.argv) > 2 else 'anonymous.info'
+    message = ' '.join(sys.argv[2:]) or 'Hello World!'
+    print(f" [x] Sent {routing_key}:{message}")
     
-    consumer = mqConsumer(binding_key=bindingKey,exchange_name="Tech Lab Topic Exchange",queue_name=queueName)    
+    consumer = mqConsumer(binding_key=routing_key,exchange_name="Tech Lab Topic Exchange",queue_name=queueName)    
     consumer.startConsuming()
     
 
@@ -35,5 +40,7 @@ if __name__ == "__main__":
     #
     #                       WRITE CODE HERE!!!
     #
+    sector = sys.argv[0]
+    queueName = sys.argv[1]
 
-    sys.exit(main(sector,queue))
+    sys.exit(main(sector,queueName))
